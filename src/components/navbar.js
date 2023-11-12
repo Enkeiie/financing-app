@@ -3,8 +3,8 @@ import Modal from "./modal";
 function Navbar(){
     return (
         <div className="navbar bg-neutral text-base shadow-md">
-            <Modal mid="modal-expense"/>
-            <Modal mid="modal-income"/>
+            <Modal type="modal-expense"/>
+            <Modal type="modal-income"/>
             <div className="navbar=start">
                 <div className="dropdown">
                     <label tabIndex="0" className="btn btn-ghost lg:hidden">
@@ -19,8 +19,8 @@ function Navbar(){
             </div>
             <div className="navbar-center hidden lg:flex gap-2">
                 <ul className="menu menu-horizontal lg:flex gap-2">
-                    <li><button className="btn-success text-base" onClick={()=>document.getElementById('modal-expense').showModal()}>Add income</button></li>
-                    <li><button className="btn-error text-base" onClick={()=>document.getElementById('modal-income').showModal()}>Add expense</button></li>
+                    <li><button className="btn-success text-base" onClick={()=>document.getElementById('modal-income').showModal()}>Add income</button></li>
+                    <li><button className="btn-error text-base" onClick={()=>document.getElementById('modal-expense').showModal()}>Add expense</button></li>
                 </ul>
             </div>
         </div>
