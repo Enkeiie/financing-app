@@ -1,8 +1,14 @@
 import { useEffect, useState } from 'react';
-
+import { useForm } from 'react-hook-form';
 function Modal(props) {
   const [modValue, setValue] = useState(0.0);
   const [modType, setType] = useState('');
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const onSubmit = (data) => {
+    // Your submission logic here
+    console.log(data);
+  };
 
   useEffect(() => {
     switch (props.type) {
@@ -28,26 +34,30 @@ function Modal(props) {
   }
 
   const handleInput = (event) => {
-    setValue(parseFloat(event.target.value));
+    const inputValue = parseFloat(event.target.value);
+    setValue(isNaN(inputValue) ? 0 : inputValue);
   }
 
   return (
     <dialog id={props.type} className="modal modal-bottom sm:modal-middle">
       <div className="modal-box">
         <h3 className="font-bold text-lg">Add {modType}</h3>
-        <form className="py-4 form-control w-full max-w-xs">
+        <form className="py-4 form-control w-full max-w-xs" onSubmit={handleSubmit(onSubmit)}>
           <label className="label">
             <span className="label-text">Title</span>
           </label>
-          <input type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />
+          <input type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" {...register("title", {required: "Title is required", minLength: 1, maxLength: 255})}/>
+          {errors.title && <span className='label-text-alt py-2 text-error'>- {errors.title.message}</span>}
           <label className="label">
-            <span className="label-text">Value</span>
+            <span className="label-text">Value [zł]</span>
           </label>
           <div className="relative w-40">
             <p className="absolute left-0 top-0 rounded-r-none btn btn-square input input-bordered" onClick={handleReduce}>-</p>
-            <input type="number" name="modValue" className="w-full text-center px-12 input input-bordered max-w-xs" value={modValue} onInput={handleInput} />
+            <input type="number" name="modValue" className="w-full text-center px-12 input input-bordered max-w-xs" value={modValue} onInput={handleInput} {...register("value",{ required: "Value is required", min: { value: 0.03, message: "Value must be greater than or equal to 0,03 zł" }})}/>
             <p className="absolute right-0 top-0 rounded-l-none btn btn-square input input-bordered" onClick={handleIncrease}>+</p>
           </div>
+          {errors.value && <span className='label-text-alt py-2 text-error'>- {errors.value.message}</span>}
+          <input type="submit" className='btn btn-primary my-2' value="Submit"/>
         </form>
         <div className="modal-action">
           <form method="dialog">
