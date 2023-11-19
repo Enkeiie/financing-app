@@ -1,13 +1,26 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import axiosInstance from '../axios.config';
+import { useDispatch } from 'react-redux'
+import { increment } from '../store/counterDataset'
+
 function Modal(props) {
+  const dispatch = useDispatch();
+  const [modTitle, setTitle] = useState('');
   const [modValue, setValue] = useState(0.0);
   const [modType, setType] = useState('');
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = (data) => {
-    // Your submission logic here
-    console.log(data);
+    data.type=modType;
+    axiosInstance.post('', data)
+      .then(response => {
+        console.log(response.data);
+        dispatch(increment(response.data));
+      })
+      .catch(error => {
+        console.error('Error sending data:', error);
+      });
   };
 
   useEffect(() => {
@@ -37,7 +50,9 @@ function Modal(props) {
     const inputValue = parseFloat(event.target.value);
     setValue(isNaN(inputValue) ? 0 : inputValue);
   }
-
+  const handleChange = (event) => {
+    setTitle(event.target.value);
+  }
   return (
     <dialog id={props.type} className="modal modal-bottom sm:modal-middle">
       <div className="modal-box">
@@ -46,17 +61,18 @@ function Modal(props) {
           <label className="label">
             <span className="label-text">Title</span>
           </label>
-          <input type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" {...register("title", {required: "Title is required", minLength: 1, maxLength: 255})}/>
+          <input type="text" value={modTitle} placeholder="Type here" className="input input-bordered w-full max-w-xs" {...register("title", {required: "Title is required", minLength: 1, maxLength: 255})} onChange={handleChange}/>
           {errors.title && <span className='label-text-alt py-2 text-error'>- {errors.title.message}</span>}
           <label className="label">
             <span className="label-text">Value [zł]</span>
           </label>
           <div className="relative w-40">
             <p className="absolute left-0 top-0 rounded-r-none btn btn-square input input-bordered" onClick={handleReduce}>-</p>
-            <input type="number" name="modValue" className="w-full text-center px-12 input input-bordered max-w-xs" value={modValue} onInput={handleInput} {...register("value",{ required: "Value is required", min: { value: 0.03, message: "Value must be greater than or equal to 0,03 zł" }})}/>
+            <input type="number" className="w-full text-center px-12 input input-bordered max-w-xs" value={modValue} onInput={handleInput} {...register("value",{ required: "Value is required", min: { value: 0.03, message: "Value must be greater than or equal to 0,03 zł" }})}/>
             <p className="absolute right-0 top-0 rounded-l-none btn btn-square input input-bordered" onClick={handleIncrease}>+</p>
           </div>
           {errors.value && <span className='label-text-alt py-2 text-error'>- {errors.value.message}</span>}
+          <input type="hidden" value={modType} {...register("type")}/>
           <input type="submit" className='btn btn-primary my-2' value="Submit"/>
         </form>
         <div className="modal-action">
