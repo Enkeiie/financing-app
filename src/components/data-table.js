@@ -1,24 +1,18 @@
+import { useState } from "react";
 import { useEffect } from "react";
-import axiosInstance from "../axios.config";
-import { useDispatch, useSelector } from "react-redux";
-import { update } from '../store/counterDataset'
 
 function DataTable(props) {
-    const dispatch = useDispatch();
-    const data = useSelector(state => state.dataset.value)
+    const data = props.data
+    const [db,setDb] = useState([]);
+
     useEffect(() => {
-        axiosInstance.get('data').then(response => {
-            console.log(response)
-            dispatch(update(response.data))
-        })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }, [dispatch])
+      setDb(data);
+    },[data]);
+
     return (
-        <div className="card bg-neutral shadow-lg overflow-x-auto w-full md:w-2/3 flex justify-center h-96 md:p-4 p-2">
+        <div className="card bg-base-100 shadow-lg overflow-x-auto w-full md:w-2/3 flex justify-center h-96 md:p-4 p-2">
           <div className="w-full h-full overflow-y-auto">
-            <table className="table md:table-lg table-xs w-full">
+            <table className="table xl:table-lg table-xs w-full">
               <thead>
                 <tr>
                   <th>#</th>
@@ -28,7 +22,7 @@ function DataTable(props) {
                 </tr>
               </thead>
               <tbody>
-                {data.map((item, index) => (
+                {db.map((item, index) => (
                   <tr key={item._id}>
                     <td>{index + 1}</td>
                     <td>{item.value}</td>
