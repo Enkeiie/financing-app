@@ -1,5 +1,5 @@
 import Modal from "./modal";
-function Navbar(){
+const Navbar = () => {
     return (
         <div className="navbar bg-base-100 text-base shadow-md">
             <Modal type="modal-expense"/>
@@ -14,7 +14,7 @@ function Navbar(){
                         <li><button className="btn-error text-base" onClick={()=>document.getElementById('modal-expense').showModal()}>Add expense</button></li>
                     </ul>
                 </div>
-                <a className="btn xl:btn-lg btn-sm btn-ghost xl:text-lg">myfinance</a>
+                <button className="btn xl:btn-lg btn-sm btn-ghost xl:text-lg">myfinance</button>
             </div>
             <div className="navbar-center hidden md:flex gap-2">
                 <div className="menu menu-horizontal md:flex gap-2">

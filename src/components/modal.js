@@ -4,7 +4,7 @@ import axiosInstance from '../axios.config';
 import { useDispatch } from 'react-redux'
 import { increment } from '../store/counterDataset'
 
-function Modal(props) {
+const Modal = (props) => {
   const dispatch = useDispatch();
   const [modTitle, setTitle] = useState('');
   const [modValue, setValue] = useState(0.0);
@@ -13,6 +13,9 @@ function Modal(props) {
 
   const onSubmit = (data) => {
     data.type=modType;
+    if(data.type === "expense"){
+      data.value = data.value*(-1)
+    }
     axiosInstance.post('', data)
       .then(response => {
         console.log(response.data);
