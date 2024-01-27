@@ -19,11 +19,11 @@ const  Display = ({ sdata, stime }) => {
     },[data]);
 
     return (
-        <div className="stats shadow-lg w-full md:w-1/3">
+        <div className="stats shadow-lg w-full">
             <div className="stat">
-                <div className="stat-title xl:text-6xl">Current balance</div>
-                <div className="stat-value xl:text-8xl">{countBalance(db)}</div>
-                <div className="stat-desc xl:text-3xl">Results for {timespan} day/s</div>
+                <div className="stat-title xl:text-4xl 2xl:text-6xl">Current balance</div>
+                <div className="stat-value xl:text-6xl 2xl:text-8xl">{countBalance(db)}</div>
+                <div className="stat-desc xl:text-2xl 2xl:text-3xl">Results for {timespan} day/s</div>
             </div>
         </div>);
 }

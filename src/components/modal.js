@@ -34,6 +34,8 @@ const Modal = (props) => {
       case "modal-income":
         setType("income")
         break;
+      default:
+        break;
     }
   }, [props.type]);
 

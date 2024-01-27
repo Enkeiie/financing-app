@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux'
 import { decrement } from "../store/counterDataset";
 import axiosInstance from '../axios.config';
+
 const checkType = (type) => {
   if (type === 'expense') {
     return "text-error"

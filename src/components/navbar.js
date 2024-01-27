@@ -1,4 +1,5 @@
 import Modal from "./modal";
+import ThemeSwitcher from "./theme-switcher";
 const Navbar = () => {
     return (
         <div className="navbar bg-base-100 text-base shadow-md">
@@ -12,6 +13,7 @@ const Navbar = () => {
                     <ul tabIndex="0" className="menu menu-sm dropdown-content shadow-md bg-base-100 border border-neutral rounded-box w-48 flex flex-col gap-2">
                         <li><button className="btn-success text-base" onClick={()=>document.getElementById('modal-income').showModal()}>Add income</button></li>
                         <li><button className="btn-error text-base" onClick={()=>document.getElementById('modal-expense').showModal()}>Add expense</button></li>
+                        <li><ThemeSwitcher/></li>
                     </ul>
                 </div>
                 <button className="btn xl:btn-lg btn-sm btn-ghost xl:text-lg">myfinance</button>
@@ -21,6 +23,9 @@ const Navbar = () => {
                     <button className="btn xl:btn-lg btn-sm btn-success xl:text-lg" onClick={()=>document.getElementById('modal-income').showModal()}>Add income</button>
                     <button className="btn xl:btn-lg btn-sm btn-error xl:text-lg" onClick={()=>document.getElementById('modal-expense').showModal()}>Add expense</button>
                 </div>
+            </div>
+            <div className="fixed right-2 hidden md:block">
+                <ThemeSwitcher/>
             </div>
         </div>
     );
